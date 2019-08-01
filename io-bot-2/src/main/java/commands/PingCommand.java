@@ -8,6 +8,7 @@ public class PingCommand extends Command {
 		this.name = "ping";
 		this.aliases = new String[] {"pong", "ping!"};
 		this.help = "Pings to check whether the bot is working. ";
+		this.guildOnly = false;
 	}
 	
 	@Override

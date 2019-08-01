@@ -13,7 +13,7 @@ public class Main {
 	public static void main(String[] args) throws LoginException {
 		//Command parser stuff
 		CommandClientBuilder ccBuilder = new CommandClientBuilder();
-		ccBuilder.setPrefix("c.");  //Set prefix to c.
+		ccBuilder.setPrefix("io.");  //Set prefix to c.
 		ccBuilder.useDefaultGame();
 		ccBuilder.setOwnerId("281300961312374785");     //This is my userID.
 		//Adding commands
