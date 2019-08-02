@@ -1,0 +1,5 @@
+<attempt>
+  <function>IO_A</function>
+  <args>1 2 3</args>
+  <reply>6</reply>
+</attempt>

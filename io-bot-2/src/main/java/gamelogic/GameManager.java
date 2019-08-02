@@ -1,5 +1,56 @@
 package gamelogic;
 
-public class GameManager {
+import java.io.IOException;
+import java.util.ArrayList;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
+public class GameManager {
+	
+	private static ArrayList<Player> players = new ArrayList<Player>();
+	
+	/**
+	 * Gets the stats of the player with the specified ID. 
+	 * @param id the ID of the player
+	 * @return a nicely formatted String which can be printed
+	 * to the Discord chat (but probably should be split into 2000
+	 * character strings first). 
+	 * @throws IllegalArgumentException if the method cannot find
+	 * a player with that ID. 
+	 */
+	public static String getStats(long id) throws IllegalArgumentException {
+		//Find a player with that ID
+		for (Player p : players) {
+			if (p.getID() == id) {
+				return p.getAttemptsFormatted();
+			}
+		}
+		throw new IllegalArgumentException("No player found with that ID. ");
+	}
+	
+	/**
+	 * Initialises the GameManager, i.e. loads all the
+	 * entries stored as XML into the players ArrayList. 
+	 */
+	public static void init() {
+		long[] ids;
+		try {
+			ids = PlayerParser.playerIDs();
+		} catch (ParserConfigurationException | SAXException | IOException e) {
+			e.printStackTrace();
+			return;
+		}
+		
+		for (long l : ids) {
+			try {
+				players.add(PlayerParser.parsePlayer(l));
+			} catch (IllegalArgumentException | ParserConfigurationException | SAXException | IOException e) {
+				e.printStackTrace();
+				return;
+			}
+		}
+		
+	}
 }

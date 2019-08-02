@@ -66,4 +66,37 @@ public class PlayerParser {
 		
 		return p;
 	}
+	
+	
+	/**
+	 * Gets the list of player IDs from the "res/ids.xml" file.
+	 * @return an array of playerIDs (long[])
+	 * @throws ParserConfigurationException The file is not in
+	 * the correct XML format. 
+	 * @throws SAXException
+	 * @throws IOException
+	 */
+	public static long[] playerIDs() throws ParserConfigurationException,
+				SAXException, IOException {
+		
+		File xmlFile = new File("res/ids.xml");
+		DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder = dFactory.newDocumentBuilder();
+		Document xmlDoc = dBuilder.parse(xmlFile);		
+		xmlDoc.getDocumentElement().normalize();
+		
+		NodeList nList = xmlDoc.getElementsByTagName("id");
+		long[] returner = new long[nList.getLength()];
+		for (int i = 0; i < nList.getLength(); i++) {
+			Node n = nList.item(i);
+			
+			if (n.getNodeType() == Node.ELEMENT_NODE) {
+				Element eElement = (Element) n;
+				System.out.println(eElement.getTextContent());
+				returner[i] = Long.parseLong(eElement.getTextContent());
+			}
+		}
+		
+		return returner;
+	}
 }

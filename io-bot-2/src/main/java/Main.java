@@ -4,6 +4,8 @@ import javax.security.auth.login.LoginException;
 
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import commands.*;
+import commands.gamecommands.StatsCommand;
+import gamelogic.GameManager;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDABuilder;
 
@@ -17,8 +19,10 @@ public class Main {
 		ccBuilder.useDefaultGame();
 		ccBuilder.setOwnerId("281300961312374785");     //This is my userID.
 		//Adding commands
-		ccBuilder.addCommands(new PingCommand());
+		ccBuilder.addCommands(new PingCommand(),
+								new StatsCommand());
 		
+		GameManager.init();
 		
 		JDABuilder builder = new JDABuilder(AccountType.BOT);
 		System.out.print("Input API Token: ");

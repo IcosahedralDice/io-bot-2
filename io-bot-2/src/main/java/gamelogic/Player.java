@@ -16,6 +16,13 @@ public class Player {
 	}
 	
 	/**
+	 * @return the ID of the player. 
+	 */
+	public long getID() {
+		return this.id;
+	}
+	
+	/**
 	 * Generates a nicely formatted string of all the
 	 * attempts the player has made at all the functions. 
 	 * They should all be in order. 
@@ -49,12 +56,14 @@ public class Player {
 				//example: ``ioA(1, 2, 3) = 2 [3]``
 				returner.append("``");
 				returner.append(a.getFunction());
-				returner.append("( ");
-				for (String s : fArgs) {
+				returner.append("(");
+				for (int i = 0; i < fArgs.length - 1; i++) {
+					String s = fArgs[i];
 					returner.append(s);
-					returner.append(" ");
+					returner.append(", ");
 				}
-				returner.append(" = ");
+				returner.append(fArgs[fArgs.length-1]);
+				returner.append(") = ");
 				returner.append(a.getReply());
 				returner.append(" [");
 				returner.append(counter);
