@@ -147,4 +147,32 @@ public class PlayerParser {
         transformer.transform(source, result);
         
 	}
+	
+	/**
+	 * Saves the ids to the ids file. 
+	 * @param ids An array of IDs to save. 
+	 * @throws ParserConfigurationException
+	 * @throws TransformerException
+	 */
+	public static void saveIDs(long[] ids) 
+			throws ParserConfigurationException, TransformerException {
+        DocumentBuilderFactory dbFactory =
+        DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.newDocument();
+        
+        Element newElement;
+        for (long l : ids) {
+        	newElement = doc.createElement("id");
+        	newElement.setTextContent(Long.toString(l));
+        	doc.appendChild(newElement);
+        }
+
+        
+        TransformerFactory tf = TransformerFactory.newInstance();
+        Transformer transformer = tf.newTransformer();
+        DOMSource source = new DOMSource(doc);
+        StreamResult result = new StreamResult(new File("res/ids.xml"));
+        transformer.transform(source, result);
+	}
 }
