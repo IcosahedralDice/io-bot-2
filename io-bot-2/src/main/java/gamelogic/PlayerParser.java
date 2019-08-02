@@ -2,10 +2,17 @@ package gamelogic;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
@@ -98,5 +105,46 @@ public class PlayerParser {
 		}
 		
 		return returner;
+	}
+	
+	/**
+	 * Saves the result of a player
+	 * @param p the player
+	 * @throws ParserConfigurationException
+	 * @throws TransformerException
+	 */
+	public static void savePlayer (Player p) 
+			throws ParserConfigurationException, TransformerException {
+        DocumentBuilderFactory dbFactory =
+        DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.newDocument();
+        
+        Element newElement, f, a, r; 
+        String argsString;
+        ArrayList<Attempt> playerAttempts = p.getAttempts();
+        for (Attempt a1 : playerAttempts) {
+        	//Adds the stuff of the attempt
+        	newElement = doc.createElement("attempt");
+        	f = doc.createElement("function");
+        	f.setTextContent(a1.getFunction().name());
+        	a = doc.createElement("args");
+        	argsString = "";
+        	for (String s : a1.getArgs()) {argsString += s;}
+        	a.setTextContent(argsString);
+        	r = doc.createElement("reply");
+        	r.setTextContent(a1.getReply());
+        	newElement.appendChild(f);
+        	newElement.appendChild(a);
+        	newElement.appendChild(r);
+        	doc.appendChild(newElement);
+        }
+        
+        TransformerFactory tf = TransformerFactory.newInstance();
+        Transformer transformer = tf.newTransformer();
+        DOMSource source = new DOMSource(doc);
+        StreamResult result = new StreamResult(new File("res/"+p.getID()+".xml"));
+        transformer.transform(source, result);
+        
 	}
 }
