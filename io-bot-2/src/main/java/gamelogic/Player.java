@@ -71,5 +71,12 @@ public class Player {
 		return "";
 	}
 	
-	
+	/**
+	 * Adds an attempt to the Player's ArrayList of
+	 * stored attempts. 
+	 * @param a the attempt to add
+	 */
+	public void addAttempt (Attempt a) {
+		this.attempts.add(a);
+	}
 }
