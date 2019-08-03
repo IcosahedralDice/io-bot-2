@@ -72,7 +72,7 @@ public class GameManager {
 	}
 	
 	/**
-	 * This method adds an attempt to the list. 
+	 * This method adds an query to the list. 
 	 * @param args the arguments of the command. 
 	 * @param id the ID of the user. 
 	 * @return a reply to send back to the user
@@ -96,13 +96,13 @@ public class GameManager {
 		//Find the correct player
 		for (Player p : players) {
 			if (p.getID() == id) {
-				p.addAttempt(new Attempt(f, splitArgs, reply));
+				p.addAttempt(new Attempt(AttemptType.QUERY, f, splitArgs, reply));
 				return reply;
 			}
 		}
 		//Must add player
 		players.add(new Player(id));
-		players.get(players.size()-1).addAttempt(new Attempt(f, splitArgs, reply));
+		players.get(players.size()-1).addAttempt(new Attempt(AttemptType.QUERY, f, splitArgs, reply));
 		return reply;
 	}
 

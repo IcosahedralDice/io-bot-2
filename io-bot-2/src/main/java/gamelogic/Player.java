@@ -3,12 +3,20 @@ package gamelogic;
 import java.util.ArrayList;
 
 public class Player {
+	
 	private long id;
 	
 	private ArrayList<Attempt> attempts = new ArrayList<Attempt>();
 	
+	private int[] numAttempts = new int[Functions.NUM_FUNCTIONS];
+	
 	public Player (long playerID) {
 		this.id = playerID;
+		
+		//Clears the number of attempts
+		for (int i = 0; i < Functions.NUM_FUNCTIONS; i++) {
+			numAttempts[i] = 0;
+		}
 	}
 	
 	public ArrayList<Attempt> getAttempts() {

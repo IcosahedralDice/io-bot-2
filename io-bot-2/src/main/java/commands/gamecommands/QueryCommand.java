@@ -25,10 +25,13 @@ public class QueryCommand extends Command {
 		} catch (IllegalArgumentException e) {
 			//TODO giving the function arguments
 			event.reply("Arguments are wrong. Consult the argument table please. ");
-			//return;
+			return;
 		}
-		event.reply(reply);
 		
+		final String areply = reply;
+		event.getAuthor().openPrivateChannel().queue((channel) -> {
+			channel.sendMessage(areply).queue();
+		});		
 	}
 
 }

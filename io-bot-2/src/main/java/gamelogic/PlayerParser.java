@@ -52,12 +52,15 @@ public class PlayerParser {
 		NodeList nList = root.getElementsByTagName("attempt");
 		
 		//Get all the attempts
-		Function function; String[] args; String reply;
+		Function function; String[] args; String reply; AttemptType type;
 		for (int i = 0; i < nList.getLength(); i++) {
 			Node n = nList.item(i);
 			
 			if (n.getNodeType() == Node.ELEMENT_NODE) {
 				Element eElement = (Element) n;
+				type = AttemptType.valueOf(eElement.getElementsByTagName("type")
+						.item(0)
+						.getTextContent());
 				function = Function.valueOf(
 						eElement.getElementsByTagName("function")
 						.item(0)
@@ -69,7 +72,7 @@ public class PlayerParser {
 				reply = eElement.getElementsByTagName("reply")
 						.item(0)
 						.getTextContent();
-				p.addAttempt(new Attempt(function, args, reply));
+				p.addAttempt(new Attempt(type, function, args, reply));
 			}
 		}
 		
@@ -124,12 +127,14 @@ public class PlayerParser {
         Document doc = dBuilder.newDocument();
         Element root = doc.createElement("attempts");
         
-        Element newElement, f, a, r; 
+        Element newElement, f, a, r, t; 
         String argsString;
         ArrayList<Attempt> playerAttempts = p.getAttempts();
         for (Attempt a1 : playerAttempts) {
         	//Adds the stuff of the attempt
         	newElement = doc.createElement("attempt");
+        	t = doc.createElement("type");
+        	t.setTextContent(a1.getType().name());
         	f = doc.createElement("function");
         	f.setTextContent(a1.getFunction().name());
         	a = doc.createElement("args");
@@ -138,6 +143,7 @@ public class PlayerParser {
         	a.setTextContent(argsString);
         	r = doc.createElement("reply");
         	r.setTextContent(a1.getReply());
+        	newElement.appendChild(t);
         	newElement.appendChild(f);
         	newElement.appendChild(a);
         	newElement.appendChild(r);
