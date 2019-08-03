@@ -13,7 +13,6 @@ public class PingCommand extends Command {
 	
 	@Override
 	protected void execute(CommandEvent event) {
-		// TODO Auto-generated method stub
 		event.reply("Pong!");
 	}
 

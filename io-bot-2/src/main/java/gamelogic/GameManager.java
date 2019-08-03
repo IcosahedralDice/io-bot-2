@@ -53,4 +53,39 @@ public class GameManager {
 		}
 		
 	}
+	
+	/**
+	 * This method adds an attempt to the list. 
+	 * @param args the arguments of the command. 
+	 * @param id the ID of the user. 
+	 * @return a reply to send back to the user
+	 * @throws IndexOutOfBoundsException if there
+	 * are not enough arguments for the command. 
+	 */
+	public static String getFunction (String args, long id) 
+		throws IndexOutOfBoundsException {
+		String[] splitArgsF = args.split(" ");
+		Function f = Function.valueOf(splitArgsF[0]);
+		
+		//Remove function argument
+		String[] splitArgs = new String[splitArgsF.length -1];
+		for (int i = 0; i < splitArgsF.length - 1; i++) {
+			splitArgs[i] = splitArgsF[i+1];
+		}
+		
+		//TODO: get actual reply
+		String reply = splitArgs[0];
+		
+		//Find the correct player
+		for (Player p : players) {
+			if (p.getID() == id) {
+				p.addAttempt(new Attempt(f, splitArgs, reply));
+				return reply;
+			}
+		}
+		//Must add player
+		players.add(new Player(id));
+		players.get(players.size()-1).addAttempt(new Attempt(f, splitArgs, reply));
+		return reply;
+	}
 }
