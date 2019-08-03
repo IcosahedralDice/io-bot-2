@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -47,7 +48,8 @@ public class PlayerParser {
 		xmlDoc.getDocumentElement().normalize();
 		
 		Player p = new Player(id);
-		NodeList nList = xmlDoc.getElementsByTagName("attempt");
+		Element root = xmlDoc.getDocumentElement();
+		NodeList nList = root.getElementsByTagName("attempt");
 		
 		//Get all the attempts
 		Function function; String[] args; String reply;
@@ -92,7 +94,8 @@ public class PlayerParser {
 		Document xmlDoc = dBuilder.parse(xmlFile);		
 		xmlDoc.getDocumentElement().normalize();
 		
-		NodeList nList = xmlDoc.getElementsByTagName("id");
+		Element root = xmlDoc.getDocumentElement();
+		NodeList nList = root.getElementsByTagName("id");
 		long[] returner = new long[nList.getLength()];
 		for (int i = 0; i < nList.getLength(); i++) {
 			Node n = nList.item(i);
@@ -119,6 +122,7 @@ public class PlayerParser {
         DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         Document doc = dBuilder.newDocument();
+        Element root = doc.createElement("attempts");
         
         Element newElement, f, a, r; 
         String argsString;
@@ -130,18 +134,21 @@ public class PlayerParser {
         	f.setTextContent(a1.getFunction().name());
         	a = doc.createElement("args");
         	argsString = "";
-        	for (String s : a1.getArgs()) {argsString += s;}
+        	for (String s : a1.getArgs()) {argsString += s; argsString += " ";}
         	a.setTextContent(argsString);
         	r = doc.createElement("reply");
         	r.setTextContent(a1.getReply());
         	newElement.appendChild(f);
         	newElement.appendChild(a);
         	newElement.appendChild(r);
-        	doc.appendChild(newElement);
+        	root.appendChild(newElement);
         }
-        
+
+        doc.appendChild(root);
         TransformerFactory tf = TransformerFactory.newInstance();
         Transformer transformer = tf.newTransformer();
+        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         DOMSource source = new DOMSource(doc);
         StreamResult result = new StreamResult(new File("res/"+p.getID()+".xml"));
         transformer.transform(source, result);
@@ -160,17 +167,20 @@ public class PlayerParser {
         DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         Document doc = dBuilder.newDocument();
+        Element root = doc.createElement("playerIDs");
         
         Element newElement;
         for (long l : ids) {
         	newElement = doc.createElement("id");
         	newElement.setTextContent(Long.toString(l));
-        	doc.appendChild(newElement);
+        	root.appendChild(newElement);
         }
 
-        
+        doc.appendChild(root);
         TransformerFactory tf = TransformerFactory.newInstance();
         Transformer transformer = tf.newTransformer();
+        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         DOMSource source = new DOMSource(doc);
         StreamResult result = new StreamResult(new File("res/ids.xml"));
         transformer.transform(source, result);

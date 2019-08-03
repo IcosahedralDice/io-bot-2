@@ -5,6 +5,7 @@ import javax.security.auth.login.LoginException;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import commands.*;
 import commands.gamecommands.QueryCommand;
+import commands.gamecommands.SaveCommand;
 import commands.gamecommands.StatsCommand;
 import gamelogic.GameManager;
 import net.dv8tion.jda.core.AccountType;
@@ -22,7 +23,8 @@ public class Main {
 		//Adding commands
 		ccBuilder.addCommands(new PingCommand(),
 								new StatsCommand(),
-								new QueryCommand());
+								new QueryCommand(),
+								new SaveCommand());
 		
 		GameManager.init();
 		
