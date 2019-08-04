@@ -72,7 +72,7 @@ public class Player {
 				}
 				returner.append(fArgs[fArgs.length-1]);
 				returner.append(") = ");
-				returner.append(a.getReply());
+				returner.append(a.getAnswer());
 				returner.append(" [");
 				returner.append(counter);
 				returner.append("]``\n");
@@ -82,10 +82,14 @@ public class Player {
 		
 		return returner.toString();
 	}
-	
-	public String attempt(String[] args) {
-		//TODO: implement functions
-		return "";
+
+	/**
+	 * Adds a certain score to the number of attempts. 
+	 * @param f
+	 * @param add
+	 */
+	public void addScore (Function f, int add) {
+		numAttempts[Functions.indexOfFunc(f)] += add;
 	}
 	
 	/**

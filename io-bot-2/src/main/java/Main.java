@@ -4,6 +4,7 @@ import javax.security.auth.login.LoginException;
 
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import commands.*;
+import commands.gamecommands.GuessCommand;
 import commands.gamecommands.QueryCommand;
 import commands.gamecommands.SaveCommand;
 import commands.gamecommands.StatsCommand;
@@ -24,7 +25,8 @@ public class Main {
 		ccBuilder.addCommands(new PingCommand(),
 								new StatsCommand(),
 								new QueryCommand(),
-								new SaveCommand());
+								new SaveCommand(),
+								new GuessCommand());
 		
 		GameManager.init();
 		

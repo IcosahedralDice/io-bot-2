@@ -27,6 +27,30 @@ public class Functions {
 		
 	}
 	
+	/**
+	 * Gets the index of a function (0 for IO_A, 1 for IO_B, etc)
+	 * @param f the function
+	 * @return the index
+	 */
+	public static int indexOfFunc (Function f) {
+		switch (f) {
+			case IO_A:
+				return 0;
+			case IO_B:
+				return 1;
+			case IO_C:
+				return 2;
+			case IO_D:
+				return 3;
+			case IO_E:
+				return 4;
+			case IO_F:
+				return 5;
+			default:
+				return -1;
+		}
+	}
+	
 	private static String IO_A (String[] args) 
 			throws IllegalArgumentException {
 		

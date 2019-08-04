@@ -80,7 +80,7 @@ public class GameManager {
 	 * are not enough arguments for the command. 
 	 */
 	public static String query (String args, long id) 
-		throws IndexOutOfBoundsException {
+		throws ArrayIndexOutOfBoundsException {
 		String[] splitArgsF = args.split(" ");
 		Function f = Function.valueOf(splitArgsF[0]);
 		
@@ -90,27 +90,70 @@ public class GameManager {
 			splitArgs[i] = splitArgsF[i+1];
 		}
 		
-		String reply;
+		String answer;
 		try {
-			reply = Functions.functionInterface(f, splitArgs);
+			answer = Functions.functionInterface(f, splitArgs);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "Error!";
+			return "Incorrect arguments.";
 		}
+		
+		Attempt a = new Attempt(AttemptType.QUERY, f, splitArgs, answer);
+		String reply = a.getPrettyPrinted(0);
 		
 		//Find the correct player
 		for (Player p : players) {
 			if (p.getID() == id) {
-				p.addAttempt(new Attempt(AttemptType.QUERY, f, splitArgs, reply));
+				p.addAttempt(new Attempt(AttemptType.QUERY, f, splitArgs, answer));
 				return reply;
 			}
 		}
 		//Must add player
 		players.add(new Player(id));
-		players.get(players.size()-1).addAttempt(new Attempt(AttemptType.QUERY, f, splitArgs, reply));
+		players.get(players.size()-1).addAttempt(new Attempt(AttemptType.QUERY, f, splitArgs, answer));
 		return reply;
 	}
 
+	
+	public static String guess (String args, long id)
+		throws ArrayIndexOutOfBoundsException {
+		String[] splitArgsF = args.split(" ");
+		Function f = Function.valueOf(splitArgsF[0]);
+		String guessVal = splitArgsF[1];
+		
+		//Remove function and guess
+		String[] splitArgs = new String[splitArgsF.length-2];
+		for (int i = 0; i < splitArgsF.length - 2; i++) {
+			splitArgs[i] = splitArgsF[i+2];
+		}
+		
+		String actualAnswer;
+		try {
+			actualAnswer = Functions.functionInterface(f, splitArgs);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "Incorrect arguments.";
+		}
+		
+		Attempt a = new Attempt(AttemptType.GUESS, f, splitArgs, actualAnswer, guessVal);
+		String reply = a.getPrettyPrinted(0);
+		boolean correct = actualAnswer.contentEquals(guessVal);
+		
+		//Find the correct player
+		for (Player p : players) {
+			if (p.getID() == id) {
+				p.addAttempt(a);
+				if (!correct) {p.addScore(f, 2);}
+				return reply;
+			}
+		}
+		//Must add player
+		players.add(new Player(id));
+		players.get(players.size()-1).addAttempt(a);
+		if (!correct) {players.get(players.size()-1).addScore(f, 2);}
+		return reply;
+	}
+	
 	/**
 	 * Saves the current state of the game to files. As
 	 * this is an administrator command the program should

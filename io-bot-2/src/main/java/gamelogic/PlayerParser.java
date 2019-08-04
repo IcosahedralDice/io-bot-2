@@ -52,7 +52,7 @@ public class PlayerParser {
 		NodeList nList = root.getElementsByTagName("attempt");
 		
 		//Get all the attempts
-		Function function; String[] args; String reply; AttemptType type;
+		Function function; String[] args; String reply; AttemptType type; String guess;
 		for (int i = 0; i < nList.getLength(); i++) {
 			Node n = nList.item(i);
 			
@@ -72,13 +72,19 @@ public class PlayerParser {
 				reply = eElement.getElementsByTagName("reply")
 						.item(0)
 						.getTextContent();
-				p.addAttempt(new Attempt(type, function, args, reply));
+				if (type.equals(AttemptType.FUNCTION_GUESS) || type.equals(AttemptType.GUESS)) {
+					guess = eElement.getElementsByTagName("guess")
+							.item(0)
+							.getTextContent();
+					p.addAttempt(new Attempt(type, function, args, reply, guess));
+				} else {
+					p.addAttempt(new Attempt(type, function, args, reply));
+				}
 			}
 		}
 		
 		return p;
 	}
-	
 	
 	/**
 	 * Gets the list of player IDs from the "res/ids.xml" file.
@@ -127,7 +133,7 @@ public class PlayerParser {
         Document doc = dBuilder.newDocument();
         Element root = doc.createElement("attempts");
         
-        Element newElement, f, a, r, t; 
+        Element newElement, f, a, r, t, g; 
         String argsString;
         ArrayList<Attempt> playerAttempts = p.getAttempts();
         for (Attempt a1 : playerAttempts) {
@@ -142,7 +148,12 @@ public class PlayerParser {
         	for (String s : a1.getArgs()) {argsString += s; argsString += " ";}
         	a.setTextContent(argsString);
         	r = doc.createElement("reply");
-        	r.setTextContent(a1.getReply());
+        	r.setTextContent(a1.getAnswer());
+        	if (f.equals(AttemptType.GUESS) || f.equals(AttemptType.FUNCTION_GUESS)) {
+        		g = doc.createElement("guess");
+        		g.setTextContent(a1.getGuess());
+        		newElement.appendChild(g);
+        	}
         	newElement.appendChild(t);
         	newElement.appendChild(f);
         	newElement.appendChild(a);
