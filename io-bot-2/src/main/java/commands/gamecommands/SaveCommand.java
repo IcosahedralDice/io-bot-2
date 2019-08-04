@@ -15,7 +15,6 @@ public class SaveCommand extends Command {
 	
 	@Override
 	protected void execute(CommandEvent event) {
-		// TODO Auto-generated method stub
 		if (!GameManager.isAdmin(event.getAuthor().getIdLong())) {
 			event.reply("This is an admin command!");
 			return;

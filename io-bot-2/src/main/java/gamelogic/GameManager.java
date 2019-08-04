@@ -79,7 +79,7 @@ public class GameManager {
 	 * @throws IndexOutOfBoundsException if there
 	 * are not enough arguments for the command. 
 	 */
-	public static String getFunction (String args, long id) 
+	public static String query (String args, long id) 
 		throws IndexOutOfBoundsException {
 		String[] splitArgsF = args.split(" ");
 		Function f = Function.valueOf(splitArgsF[0]);
@@ -90,8 +90,13 @@ public class GameManager {
 			splitArgs[i] = splitArgsF[i+1];
 		}
 		
-		//TODO: get actual reply
-		String reply = splitArgs[0];
+		String reply;
+		try {
+			reply = Functions.functionInterface(f, splitArgs);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "Error!";
+		}
 		
 		//Find the correct player
 		for (Player p : players) {

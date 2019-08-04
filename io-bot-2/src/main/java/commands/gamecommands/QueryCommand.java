@@ -16,12 +16,11 @@ public class QueryCommand extends Command {
 	
 	@Override
 	protected void execute(CommandEvent event) {
-		// TODO Auto-generated method stub
 		String args = event.getArgs();
 		//System.out.println(args);
 		String reply = "";
 		try {
-			reply = GameManager.getFunction(event.getArgs(), event.getAuthor().getIdLong());
+			reply = GameManager.query(event.getArgs(), event.getAuthor().getIdLong());
 		} catch (IllegalArgumentException e) {
 			//TODO giving the function arguments
 			event.reply("Arguments are wrong. Consult the argument table please. ");
