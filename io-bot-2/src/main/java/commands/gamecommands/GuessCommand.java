@@ -9,6 +9,10 @@ public class GuessCommand extends Command {
 	public GuessCommand() {
 		this.name = "guess";
 		this.arguments = "<function name> <guess> <arg 1> <arg 2> <arg 3>";
+		this.help = "Allows you to guess a function's output. Adds 0 "
+				+ "points to score for a correct guess and 2 for an incorrect"
+				+ " guess.";
+		this.guildOnly = false;
 	}
 
 	@Override

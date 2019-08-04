@@ -11,6 +11,7 @@ public class QueryCommand extends Command {
 		this.name = "query";
 		this.help = "Querys a function. ";
 		this.arguments = "<function> <input 1> <input 2> ... <input n>";
+		this.guildOnly = false;
 	}
 	
 	
