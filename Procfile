@@ -1,1 +1,1 @@
-web: java -jar build/libs/io-bot-2.jar
+worker: java -jar build/libs/io-bot-2.jar
