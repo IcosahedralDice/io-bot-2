@@ -1,1 +1,1 @@
-web: java -jar test\io-bot-2.jar
+web: java -jar build/libs/io-bot-2.jar
