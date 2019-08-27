@@ -9,7 +9,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -47,10 +46,19 @@ public class PlayerParser {
 		Document xmlDoc = dBuilder.parse(xmlFile);		
 		xmlDoc.getDocumentElement().normalize();
 		
-		Player p = new Player(id);
 		Element root = xmlDoc.getDocumentElement();
 		NodeList nList = root.getElementsByTagName("attempt");
 		
+		
+		NodeList functionScores = root.getElementsByTagName("score");
+		long[] functionScoreArray = new long[Functions.NUM_FUNCTIONS];
+		for (int i = 0; i < Functions.NUM_FUNCTIONS; i++) {
+			Node n = functionScores.item(i);
+			Element eElement = (Element) n;
+			functionScoreArray[Integer.parseInt(eElement.getAttribute("funcNum"))] =
+					Long.parseLong(eElement.getTextContent());
+		}
+		Player p = new Player(id, functionScoreArray);
 		//Get all the attempts
 		Function function; String[] args; String reply; AttemptType type; String guess;
 		for (int i = 0; i < nList.getLength(); i++) {
@@ -149,7 +157,7 @@ public class PlayerParser {
         	a.setTextContent(argsString);
         	r = doc.createElement("reply");
         	r.setTextContent(a1.getAnswer());
-        	if (f.equals(AttemptType.GUESS) || f.equals(AttemptType.FUNCTION_GUESS)) {
+        	if (a1.getType().equals(AttemptType.GUESS) || a1.getType().equals(AttemptType.FUNCTION_GUESS)) {
         		g = doc.createElement("guess");
         		g.setTextContent(a1.getGuess());
         		newElement.appendChild(g);

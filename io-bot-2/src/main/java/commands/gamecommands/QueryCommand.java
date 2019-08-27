@@ -3,7 +3,6 @@ package commands.gamecommands;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 
-import gamelogic.Functions;
 import gamelogic.GameManager;
 
 public class QueryCommand extends Command {
@@ -17,7 +16,6 @@ public class QueryCommand extends Command {
 	
 	@Override
 	protected void execute(CommandEvent event) {
-		String args = event.getArgs();
 		//System.out.println(args);
 		String reply = "";
 		try {

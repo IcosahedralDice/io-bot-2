@@ -17,7 +17,6 @@ public class GuessCommand extends Command {
 
 	@Override
 	protected void execute(CommandEvent event) {
-		String args = event.getArgs();
 		//System.out.println(args);
 		String reply = "";
 		try {

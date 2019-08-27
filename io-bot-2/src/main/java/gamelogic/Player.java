@@ -10,7 +10,7 @@ public class Player {
 	
 	private int[] numAttempts = new int[Functions.NUM_FUNCTIONS];
 	
-	public Player (long playerID) {
+	public Player (long playerID, long[] attempts) {
 		this.id = playerID;
 		
 		//Clears the number of attempts

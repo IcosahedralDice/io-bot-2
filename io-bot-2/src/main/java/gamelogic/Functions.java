@@ -6,7 +6,8 @@ public class Functions {
 	 */
 	public static int NUM_FUNCTIONS = 6;
 	
-	public static String functionInterface (Function f, String[] args) {
+	public static String functionInterface (Function f, String[] args) 
+		throws IllegalArgumentException {
 		switch(f) {
 			case IO_A:
 				return IO_A(args);
@@ -53,8 +54,19 @@ public class Functions {
 	
 	private static String IO_A (String[] args) 
 			throws IllegalArgumentException {
+		if (args.length != 3) {
+			throw new IllegalArgumentException("Incorrect number of arguments!");
+		}
+		int a, b, c;
+		try {
+			a = Integer.parseInt(args[0]);
+			b = Integer.parseInt(args[1]);
+			c = Integer.parseInt(args[2]);
+		} catch (Exception e) {
+			throw new IllegalArgumentException("Not integers!");
+		}
 		
-		return args[0];
+		return Integer.toString((a+b+c));
 	}
 	
 	private static String IO_B (String[] args) 

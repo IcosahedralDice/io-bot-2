@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Scanner;
 
 import javax.security.auth.login.LoginException;
@@ -15,7 +16,7 @@ import net.dv8tion.jda.core.JDABuilder;
 public class Main {
 	private static Scanner sc = new Scanner(System.in);
 	
-	public static void main(String[] args) throws LoginException {
+	public static void main(String[] args) throws LoginException, IOException {
 		//Command parser stuff
 		CommandClientBuilder ccBuilder = new CommandClientBuilder();
 		ccBuilder.setPrefix("io.");  //Set prefix to c.
@@ -29,12 +30,17 @@ public class Main {
 								new GuessCommand());
 		
 		GameManager.init();
+		Logger.initialise();
 		
 		JDABuilder builder = new JDABuilder(AccountType.BOT);
-		System.out.print("Input API Token: ");
-		String token = sc.nextLine();
+		String token = System.getenv("APITOKEN");
+		if (token == null) {
+			System.out.print("Input API Token: ");
+			token = sc.nextLine();
+		}
 		builder.setToken(token);
 		builder.addEventListener(ccBuilder.build());
+		builder.addEventListener(new Logger());
 		builder.build();
 	}
 }

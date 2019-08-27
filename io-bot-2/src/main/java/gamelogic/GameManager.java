@@ -109,12 +109,20 @@ public class GameManager {
 			}
 		}
 		//Must add player
-		players.add(new Player(id));
+		players.add(new Player(id, new long[] {0,0,0,0,0,0}));
 		players.get(players.size()-1).addAttempt(new Attempt(AttemptType.QUERY, f, splitArgs, answer));
 		return reply;
 	}
 
-	
+	/**
+	 * This method adds a guess to the list. 
+	 * @param args the arguments for the guess, including
+	 * function name (args[0]) and the guess itself (args[1])
+	 * @param id the id of the player making the guess
+	 * @return a String which is to be replied to the user
+	 * @throws ArrayIndexOutOfBoundsException if there are
+	 * too few arguments provided by the user. 
+	 */
 	public static String guess (String args, long id)
 		throws ArrayIndexOutOfBoundsException {
 		String[] splitArgsF = args.split(" ");
@@ -148,7 +156,7 @@ public class GameManager {
 			}
 		}
 		//Must add player
-		players.add(new Player(id));
+		players.add(new Player(id, new long[] {0,0,0,0,0,0}));
 		players.get(players.size()-1).addAttempt(a);
 		if (!correct) {players.get(players.size()-1).addScore(f, 2);}
 		return reply;
