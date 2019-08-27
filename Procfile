@@ -1,0 +1,1 @@
+web: java -jar test\io-bot-2.jar
