@@ -27,7 +27,8 @@ public class Main {
 								new StatsCommand(),
 								new QueryCommand(),
 								new SaveCommand(),
-								new GuessCommand());
+								new GuessCommand(),
+								new EchoCommand());
 		
 		GameManager.init();
 		Logger.initialise();
